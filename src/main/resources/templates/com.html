@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/layui.css}"  href="../static/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body style="background: #eeeeee">
+<div class="layui-layout layui-layout-admin ">
+    <div class="layui-header  layui-tab" style="transform: translateY(-10px)">
+        <div class="layui-logo">中北商城</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/query/iindex">首页</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li th:if='${#session.getAttribute("LOGIN-USER") != null}' class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    [[${#session.getAttribute("LOGIN-USER")}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/info">个人信息</a></dd>
+                    <dd><a href="/buy/check">购物车</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<form class="layui-form" action="/comment/com">
+    <input type="hidden" name="gid" th:value="${gid}">
+    <input id="star" name="level"  type="hidden">
+    <div style="float: left; margin-left: 50px; transform: translateY(12px)">打个分呗　</div>
+    <div id="test1" style=""></div>
+    <div class="layui-form-item layui-form-text" style="margin-top: 30px">
+        <label class="layui-form-label">文本域</label>
+        <div class="layui-input-block">
+            <textarea name="context" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<blockquote class="layui-elem-quote layui-bg-blue">
+    谢谢，您的评价对我们至关重要
+</blockquote>
+
+
+<script th:src="@{/static/layui.js}" src="../static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['element', 'form', 'rate'], function(){
+        var element = layui.element;
+
+        //一些事件监听
+        element.on('tab(demo)', function(data){
+            console.log(data);
+        });
+        var form = layui.form;
+        var rate = layui.rate;
+        var ins1 = rate.render({
+            elem: '#test1',
+            text: true,
+            choose: function (value) {
+                var star = document.getElementById("star");
+                star.value = value
+            }
+        })
+    });
+</script>
+</body>
+</html>

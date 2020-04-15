@@ -1,0 +1,7 @@
+mongod:
+  host: 192.144.215.79
+  port: 27017
+  db: onlineshop
+  user: root
+  password: 123456
+

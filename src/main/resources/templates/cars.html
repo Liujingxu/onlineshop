@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/layui.css}"  href="../static/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body style="background: #eeeeee">
+<div class="layui-layout layui-layout-admin ">
+    <div class="layui-header  layui-tab" style="transform: translateY(-10px)">
+        <div class="layui-logo">中北商城</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/query/iindex">首页</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li th:if='${#session.getAttribute("LOGIN-USER") != null}' class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    [[${#session.getAttribute("LOGIN-USER")}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/info">个人信息</a></dd>
+                    <dd><a href="/buy/check">购物车</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="layui-card">
+    <div class="layui-card-header">购物车</div>
+    <div class="layui-card-body">
+        <table th:if="${sub == null }" class="layui-table" lay-even lay-skin="nob">
+            <tr>
+                <th></th>
+                <th>商品名称</th>
+                <th>购买数目</th>
+                <th>总计</th>
+                <th></th>
+            </tr>
+            <tr th:each="good, gtool : ${goods}">
+                <td><img src="../static/1.jpg"></td>
+                <td th:text="${good.getName()}"></td>
+                <td th:text="${docs.get(gtool.index).getNumber()}"></td>
+                <td th:text="${good.getPrice() * docs.get(gtool.index).getNumber()}"></td>
+                <td><a th:href="${'/buy/delete/' + good.getGid()}" class="layui-btn">删除</a></td>
+            </tr>
+        </table>
+        <strong th:unless="${sub == null}">您一共消费了[[${sub}]]件商品，共消费[[${cal + '元'}]]</strong>
+
+        <p style="margin-top: 20px" th:text="${'共计' + cal + '元'}"></p>
+        <button id="cals" type="button" class="layui-btn layui-btn-warm">结算</button>
+    </div>
+</div>
+
+<script th:src="@{/static/layui.js}" src="../static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script th:inline="javascript">
+    layui.use(['element', 'form', 'layer'], function(){
+        var element = layui.element;
+        var layer = layui.layer
+
+        //一些事件监听
+        element.on('tab(demo)', function(data){
+            console.log(data);
+        });
+        var form = layui.form;
+
+        var $ = layui.jquery
+        var result = [[${cal}]]
+
+        var goods = [[${goods}]]
+        $('#cals').click(function () {
+            console.log(goods)
+            if (result == 0 || result == '0' || result == null || goods == null){
+                layer.msg('无商品支付')
+            }else{
+                layer.confirm('您是否要支付' + result + '元现金', {
+                    btn: ['是的', '再想想'],
+                    context: '<strong>想不想哇哈</strong>'
+                }, function () {
+                    layer.msg('好的，付款成功')
+
+                    window.location.href = '/buy/sub'
+                }, function () {
+                    layer.msg('好，呢就再想想')
+                })
+            }
+
+        })
+
+    });
+</script>
+</body>
+</html>

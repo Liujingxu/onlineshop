@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/layui.css}"  href="../static/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body style="background: black">
+
+
+<form class="layui-form layui-col-md4 layui-col-md-offset4" style="background: #d2d2d2; position: absolute; top: 30%; padding: 20px; opacity: 0.9; border-radius: 20px"  action="/login/in">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input style="width: 300px" type="text" name="username" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input style="width: 300px" type="password" name="password" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <em th:text="${err}"></em>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+            <a href="/login/vcreate" class="layui-btn layui-btn-primary">注册</a>
+        </div>
+    </div>
+</form>
+<script th:src="@{/static/other/three.min.js}" src="../static/other/three.min.js"></script>
+<script th:src="@{/static/other/wallbgcanvas.js}" src="../static/other/wallbgcanvas.js"></script>
+<script th:src="@{/static/layui.js}" src="../static/layui.js" charset="utf-8"></script>
+<script th:inline="javascript">
+    //Demo
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var layer = layui.layer
+
+        //监听提交
+        // form.on('submit(formDemo)', function(data){
+        //     layer.msg(JSON.stringify(data.field));
+        //     return false;
+        // });
+    });
+</script>
+</body>
+</html>

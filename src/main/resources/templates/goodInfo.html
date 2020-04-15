@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/layui.css}"  href="/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<style>
+    .item-img{
+        display: block;
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+    }
+    .myquery {
+        display: block;
+        float: left;
+        height: 35px;
+        width: 90%;
+        border: 2px solid #FFB800;
+        text-indent: 5px;
+    }
+</style>
+<body style="background: #eeeeee">
+
+<div class="layui-layout layui-layout-admin ">
+    <div class="layui-header  layui-tab" style="transform: translateY(-10px)">
+        <div class="layui-logo">中北商城</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/query/iindex">首页</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li th:if="${#session.getAttribute('LOGIN-USER') != null}" class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    [[${(#session.getAttribute("LOGIN-USER"))}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/info">个人信息</a></dd>
+                    <dd><a href="/buy/check">购物车</a></dd>
+                </dl>
+            </li>
+            <li th:unless="${#session.getAttribute('LOGIN-USER') != null}" class="layui-nav-item">
+                <a href="/login/vlogin">登录</a>
+            </li>
+            <li th:unless="${#session.getAttribute('LOGIN-USER') != null}" class="layui-nav-item">
+                <a href="/login/vcreate">注册</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<form action="/query/find" class="layui-form" style="display: block; width: 1000px; margin: 0 auto 20px;">
+    <input type="text" name="key" placeholder="请输入" autocomplete="off" class="myquery">
+    <button type="submit" class="layui-btn layui-btn-warm">搜索</button>
+</form>
+
+<hr class="layui-bg-orange">
+
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md5 layui-col-md-offset1">
+            <div class="layui-card">
+                <div class="layui-card-body" style="background-color: #F2F2F2;">
+                    <img class="item-img"
+                         src="/static/1.jpg"
+                         alt="贸易"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5">
+            <div class="layui-card">
+<!--                style="font-size: 18px"-->
+                <div class="layui-card-header"><strong  th:text="${good.getName()}">佑诗2020新款女羊剪绒皮草大衣短款水貂领复合皮毛一体外套小个子</strong></div>
+                <div class="layui-card-body">
+                    <table class="layui-table"  lay-even lay-skin="nob" lay-size="lg">
+                        <tbody>
+                            <tr>
+                                <td>价格</td>
+                                <td style="font-size: 30px; color: red;">￥ [[${good.getPrice()}]]</td>
+                            </tr>
+                            <tr>
+                                <td>库存</td>
+                                <td th:text="${good.getNumber()}">10000</td>
+                            </tr>
+                            <tr>
+                                <td>数目：</td>
+                                <td><div class="layui-input-block">
+                                    <input form="buy" type="number" name="number" placeholder="" autocomplete="off" class="layui-input">
+                                </div></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form id="buy" class="layui-form" action="/buy/buy">
+                        <input type="hidden" name="gid" th:value="${good.getGid()}">
+
+                        <div class="layui-form-item">
+                            <button style="margin-top: 20px" class="layui-btn layui-btn-warm" lay-submit="" lay-filter="demo2">加入购物车</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md10 layui-col-md-offset1">
+            <div class="layui-card">
+                <div class="layui-card-header">商品评论 <sub><a th:href="${'/comment/vcom?gid=' + good.getGid()}">我也要评论</a></sub></div>
+                <div class="layui-card-body">
+                    <blockquote th:each="eva,index : ${good.getEvaluates()}" class="layui-elem-quote layui-elem-quote">
+                        <strong th:text="${'用户' + eva.getUid()}"></strong><div th:id="${'star' + index.index}"></div><br>
+                        <p th:text="${eva.getContext()}"></p>
+                    </blockquote>
+                    <blockquote class="layui-elem-quote layui-elem-quote">
+                        猿强，则国强。国强，则猿更强！
+                        <br>——孟子（好囖。。其实这特喵的是我说的）
+                    </blockquote>
+                    <blockquote class="layui-elem-quote layui-elem-quote">
+                        猿强，则国强。国强，则猿更强！
+                        <br>——孟子（好囖。。其实这特喵的是我说的）
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/static/layui.js}" src="../static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script th:inline="javascript">
+    layui.use(['element', 'form', 'rate'], function(){
+        var element = layui.element;
+
+        //一些事件监听
+        element.on('tab(demo)', function(data){
+            console.log(data);
+        });
+        var form = layui.form;
+        var rate = layui.rate;
+        var data = [[${good.getEvaluates()}]]
+        var inss = []
+        for (var i=0; i < data.length; i++){
+            var ins = rate.render({
+                elem: '#star' + i,
+                readonly: true,
+                value: data[i]['level'],
+                text: true
+            })
+            inss.push(ins)
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/layui.css}"  href="../static/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<style>
+    .item-img{
+        display: block;
+        width: 250px;
+        height: 250px;
+        margin: 0 auto;
+    }
+
+    .item {
+        font-size: 20px;
+        color: red;
+        margin-top: 10px;
+    }
+    .itt:hover{
+        border-radius: 1px;
+        border: 1px solid red;
+        box-shadow: 0 0 10px 3px #c2c2c2;
+    }
+    .itt {
+        border-radius: 1px;
+        border: 1px solid white;
+        box-shadow: 0 0 10px 3px white;
+    }
+    .myquery{
+        display: block;
+        float: left;
+        height: 35px;
+        width: 90%;
+        border: 2px solid #FFB800;
+        text-indent: 5px;
+    }
+</style>
+<body style="background: #eeeeee">
+
+<div class="layui-layout layui-layout-admin ">
+    <div class="layui-header  layui-tab" style="transform: translateY(-10px)">
+        <div class="layui-logo">中北商城</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="#">首页</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-layout-right">
+            <li th:if="${#session.getAttribute('LOGIN-USER') != null}" class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    [[${(#session.getAttribute("LOGIN-USER"))}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/info">个人信息</a></dd>
+                    <dd><a href="/buy/check">购物车</a></dd>
+                </dl>
+            </li>
+            <li th:unless="${#session.getAttribute('LOGIN-USER') != null}" class="layui-nav-item">
+                <a href="/login/vlogin">登录</a>
+            </li>
+            <li th:unless="${#session.getAttribute('LOGIN-USER') != null}" class="layui-nav-item">
+                <a href="/login/vcreate">注册</a>
+            </li>
+        </ul>
+    </div>
+
+    <form action="/query/find" class="layui-form" style="display: block; margin: 0 auto; width: 1000px">
+        <input type="text" name="key" placeholder="请输入" autocomplete="off" class="myquery">
+        <button type="submit" class="layui-btn layui-btn-warm">搜索</button>
+    </form>
+
+    <div class="layui-btn-container">
+        <div class="layui-row">
+            <div class="layui-col-md10 layui-col-md-offset1" style="background: white">
+                <div style="padding: 20px; background-color: #F2F2F2;">
+                    <div class="layui-row layui-col-space15">
+
+                        <div class="layui-col-md3" th:each="good : ${goods}" >
+                            <a th:href="${'/query/info?gid=' + good.getGid()}">
+                            <div class="layui-card itt">
+                                <div class="layui-card-body">
+                                    <img class="item-img"
+                                         src="/static/1.jpg"
+                                         alt="贸易"/>
+                                    <div class="layui-text  item"><strong th:text='${"￥" + good.getPrice()}'></strong></div>
+                                    <div class="layui-text" th:if="${good.getName().length() > 36}" th:text="${good.getName().substring(0, 32) + '...'}"></div>
+                                    <div class="layui-text" th:unless="${good.getName().length() > 36}" th:text="${good.getName()}"></div>
+                                    <a href="#" style="border-bottom: 1px solid; font-size: 12px" class="layui-text">徐旭的店</a>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+
+                        <div class="layui-col-md3">
+                            <div class="layui-card itt">
+                                <div class="layui-card-body">
+                                    <img class="item-img"
+                                         src="http://t00img.yangkeduo.com/goods/images/2018-12-02/d79c20f16779d4aeebf8dfdc101e6ae3.jpeg"
+                                         alt="贸易"/>
+                                    <div class="layui-text  item"><strong>￥ 434.5</strong></div>
+                                    <div class="layui-text">sss佑诗2020新款女羊剪绒皮草大衣短款水貂领复合皮毛一体外套小个子</div>
+                                    <a href="#" style="border-bottom: 1px solid; font-size: 12px" class="layui-text">徐旭的店</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-col-md3">
+                            <div class="layui-card itt">
+                                <div class="layui-card-body">
+                                    <img class="item-img"
+                                         src="http://t00img.yangkeduo.com/goods/images/2018-12-02/d79c20f16779d4aeebf8dfdc101e6ae3.jpeg"
+                                         alt="贸易"/>
+                                    <div class="layui-text  item"><strong>￥ 434.5</strong></div>
+                                    <div class="layui-text">sss佑诗2020新款女羊剪绒皮草大衣短款水貂领复合皮毛一体外套小个子</div>
+                                    <a href="#" style="border-bottom: 1px solid; font-size: 12px" class="layui-text">徐旭的店</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <div class="layui-card itt">
+                                <div class="layui-card-body">
+                                    <img class="item-img"
+                                         src="http://t00img.yangkeduo.com/goods/images/2018-12-02/d79c20f16779d4aeebf8dfdc101e6ae3.jpeg"
+                                         alt="贸易"/>
+                                    <div class="layui-text  item"><strong>￥ 434.5</strong></div>
+                                    <div class="layui-text">sss佑诗2020新款女羊剪绒皮草大衣短款水貂领复合皮毛一体外套小个子</div>
+                                    <a href="#" style="border-bottom: 1px solid; font-size: 12px" class="layui-text">徐旭的店</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <div class="layui-card itt">
+                                <div class="layui-card-body">
+                                    <img class="item-img"
+                                         src="http://t00img.yangkeduo.com/goods/images/2018-12-02/d79c20f16779d4aeebf8dfdc101e6ae3.jpeg"
+                                         alt="贸易"/>
+                                    <div class="layui-text  item"><strong>￥ 434.5</strong></div>
+                                    <div class="layui-text">sss佑诗2020新款女羊剪绒皮草大衣短款水貂领复合皮毛一体外套小个子</div>
+                                    <a href="#" style="border-bottom: 1px solid; font-size: 12px" class="layui-text">徐旭的店</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script th:src="@{/static/layui.js}" src="../static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['element', 'form'], function(){
+        var element = layui.element;
+
+        //一些事件监听
+        element.on('tab(demo)', function(data){
+            console.log(data);
+        });
+            var form = layui.form;
+    });
+</script>
+
+</body>
+</html>

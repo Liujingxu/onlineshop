@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" th:href="@{/css/layui.css}"  href="../static/css/layui.css" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/layui.css}"  href="../static/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body style="background: #eeeeee">
@@ -54,8 +54,9 @@
                 <th>总计</th>
                 <th></th>
             </tr>
+<!--            th:src="${good.getImageUrl()}"-->
             <tr th:each="good, gtool : ${goods}">
-                <td><img src="../static/1.jpg"></td>
+                <td><img  src="../static/1.jpg"></td>
                 <td th:text="${good.getName()}"></td>
                 <td th:text="${docs.get(gtool.index).getNumber()}"></td>
                 <td th:text="${good.getPrice() * docs.get(gtool.index).getNumber()}"></td>

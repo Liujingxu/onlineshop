@@ -21,8 +21,8 @@ import java.util.List;
  * @author: Liujx
  * @create: 2020-04-13 21:34
  **/
-@Controller
 @RequestMapping("/buy")
+@Controller
 public class BuyCarController {
 
     @Autowired

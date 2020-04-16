@@ -6,9 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" th:href="@{/css/layui.css}"  href="../static/css/layui.css" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/layui.css}"  href="../static/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
+<script th:src="@{/static/other/echarts.js}" src="../static/other/echarts.js"></script>
 <body style="background: #eeeeee">
 <div class="layui-layout layui-layout-admin ">
     <div class="layui-header  layui-tab" style="transform: translateY(-10px)">
@@ -85,8 +86,7 @@
             <div class="layui-card">
                 <div class="layui-card-header">消费可视化</div>
                 <div class="layui-card-body">
-                    结合 layui 的栅格系统<br>
-                    轻松实现响应式布局
+                    <div id="main" style="width: 700px;height:300px;"></div>
                 </div>
             </div>
         </div>
@@ -103,12 +103,14 @@
                             <th>总计</th>
                             <th></th>
                         </tr>
+<!--                        th:src="${good.getImageUrl()}"-->
                         <tr th:each="good, gtool : ${historyGoods}">
-                            <td><img src="../static/1.jpg"></td>
-                            <td th:text="${good.getName()}"></td>
+                            <td><img  src="../static/1.jpg"></td>
+                            <td th:if="${good.getName().length() > 25}" th:text="${good.getName().substring(0, 23) + '...'}"></td>
+                            <td th:unless="${good.getName().length() > 25}" th:text="${good.getName()}"></td>
                             <td th:text="${user.getHistoryList()[gtool.index].getNumber()}"></td>
                             <td th:text="${user.getHistoryList()[gtool.index].getTime()}"></td>
-                            <td th:text="${good.getPrice() * user.getHistoryList()[gtool.index].getNumber()}"></td>
+                            <td class="price" th:text="${good.getPrice() * user.getHistoryList()[gtool.index].getNumber()}">45.55888</td>
                         </tr>
                     </table>
                 </div>
@@ -120,7 +122,7 @@
 
 <script th:src="@{/static/layui.js}" src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
+<script th:inline="javascript">
     layui.use(['element', 'form'], function(){
         var element = layui.element;
 
@@ -129,6 +131,95 @@
             console.log(data);
         });
         var form = layui.form;
+        var $ = layui.jquery
+        $('.price').each(function () {
+            $(this).text(parseFloat($(this).text()).toFixed(2))
+        })
+
+        var map = [[${map}]]
+        // map = {
+        //     dates: [
+        //         "2020-04-16T00:08:30.034+08:00",
+        //         "2020-04-16T01:42:25.570+08:00",
+        //         "2020-04-16T01:44:05.503+08:00",
+        //         "2020-04-16T01:48:08.840+08:00",
+        //         "2020-04-16T02:02:13.144+08:00",
+        //         "2020-04-16T02:03:07.598+08:00",
+        //         "2020-04-16T13:02:08.440+08:00"
+        //     ],
+        //     price: [1445, 39.6, 269, 959, 92.7, 278.09998, 289]
+        // }
+        console.log(map)
+        datas = map.dates
+        price = map.price
+        datas.forEach(function (value, index) {
+            var str = value.substring(0, value.indexOf('.'))
+            var lines = str.split('T')
+            datas[index] = lines[0] + '\n' + lines[1]
+            // datas[index] = new Date(value)
+        })
+        console.log(datas)
+        console.log(price)
+
+        var myChart = echarts.init(document.getElementById('main'));
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: datas,
+                // label: {
+                //     show: true,
+                //     formatter: function (params) {
+                //         return echarts.format.formatTime('yyyy-MM-dd', params.value);
+                //     },
+                //     backgroundColor: '#004E52'
+                // }
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip: {
+            },
+            legend: {
+                data: ['购物金额']
+            },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    show: true,
+                    xAxisIndex: [0],
+                    start: 1,
+                    end: 350
+                },
+
+                {
+                    type: 'inside',
+                    xAxisIndex: [0],
+                    start: 1,
+                    end: 35
+                },
+
+            ],
+            series: [{
+                name: '购物金额',
+                data: price,
+                type: 'line',
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#d68262'
+                    }, {
+                        offset: 1,
+                        color: '#ffe'
+                    }])
+                },
+            }]
+        };
+
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
     });
 </script>
 </body>

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: onlineshop
@@ -34,6 +35,9 @@ public class UserController {
 
     @Autowired
     private GoodsQuery goodsQuery;
+
+    @Autowired
+    private BackLogic backLogic;
 
 
     @RequestMapping("vupdate")
@@ -67,6 +71,8 @@ public class UserController {
             goods.add(goodsQuery.getGoodsById(bd.getGid()));
         }
         mv.addObject("historyGoods", goods);
+        Map<String, Object> map = backLogic.calUserHistory(uid);
+        mv.addObject("map", map);
 
         return mv;
     }

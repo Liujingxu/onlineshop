@@ -21,6 +21,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String token = (String) request.getSession().getAttribute(AbstractLoginService.TOKEN);
         if (token == null){
             response.sendRedirect("/login/vlogin");
+            return false;
         }
         return true;
     }

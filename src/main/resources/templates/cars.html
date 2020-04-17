@@ -56,7 +56,7 @@
             </tr>
 <!--            th:src="${good.getImageUrl()}"-->
             <tr th:each="good, gtool : ${goods}">
-                <td><img  src="../static/1.jpg"></td>
+                <td><img th:src="${good.getImageUrl()}" src="../static/1.jpg"></td>
                 <td th:text="${good.getName()}"></td>
                 <td th:text="${docs.get(gtool.index).getNumber()}"></td>
                 <td th:text="${good.getPrice() * docs.get(gtool.index).getNumber()}"></td>

@@ -105,7 +105,7 @@
                         </tr>
 <!--                        th:src="${good.getImageUrl()}"-->
                         <tr th:each="good, gtool : ${historyGoods}">
-                            <td><img  src="../static/1.jpg"></td>
+                            <td><img th:src="${good.getImageUrl()}" src="../static/1.jpg"></td>
                             <td th:if="${good.getName().length() > 25}" th:text="${good.getName().substring(0, 23) + '...'}"></td>
                             <td th:unless="${good.getName().length() > 25}" th:text="${good.getName()}"></td>
                             <td th:text="${user.getHistoryList()[gtool.index].getNumber()}"></td>

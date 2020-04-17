@@ -77,8 +77,17 @@ public class GoodDaoImpl implements GoodDao {
         return trans(document);
     }
 
+
+    /**
+     * @Description: 调用 findByCond方法通过条件寻找商品
+     * @param good
+     * @return: java.util.List<com.liujx.onlineshop.entity.Good>
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @Override
     public List<Good> findByConf(Good good) {
+
         if (good == null){
             return null;
         }
@@ -104,8 +113,16 @@ public class GoodDaoImpl implements GoodDao {
         return collection.find();
     }
 
+    /**
+     * @Description: 将condition 中所有的属性提出了做条件筛选，方法：eq
+     * @param condition
+     * @return: com.mongodb.client.FindIterable<org.bson.Document>
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @Override
     public FindIterable<Document> findByCond(Document condition) {
+
         if (condition == null){
             return null;
         }
@@ -174,7 +191,16 @@ public class GoodDaoImpl implements GoodDao {
         return mongoDatabase.getCollection(GOODS_COLLECTIONS);
     }
 
+
+    /**
+     * @Description: 将doc转为good
+     * @param next
+     * @return: com.liujx.onlineshop.entity.Good
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     private Good trans(Document next){
+
         Good good = new Good();
         if (next.containsKey(gid)){
             good.setGid(next.getString(gid));
@@ -223,7 +249,15 @@ public class GoodDaoImpl implements GoodDao {
         return good;
     }
 
+    /**
+     * @Description: 将good 转为 doc
+     * @param good
+     * @return: org.bson.Document
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     private Document trans(Good good){
+
         Document document = new Document();
         document.append(gid, good.getGid());
         document.append(gname, good.getName());

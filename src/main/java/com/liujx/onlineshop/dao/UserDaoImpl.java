@@ -14,7 +14,6 @@ import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,6 +148,13 @@ public class UserDaoImpl implements UserDao {
         return mongoDatabase.getCollection(USER_COLLECTIONS);
     }
 
+    /**
+     * @Description: 将doc转为user
+     * @param next
+     * @return: com.liujx.onlineshop.entity.User
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     private User trans(Document next){
         User user = new User();
         if (next.containsKey(uid)){
@@ -188,7 +194,15 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+    /**
+     * @Description: 将doc集合转为bd数组
+     * @param temp
+     * @return: com.liujx.onlineshop.entity.BuyDoc[]
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     private BuyDoc[] toArray(List<Document> temp){
+
         BuyDoc[] buyDocs = new BuyDoc[temp.size()];
         int i = 0;
         for (Document document : temp){
@@ -198,6 +212,13 @@ public class UserDaoImpl implements UserDao {
         return buyDocs;
     }
 
+    /**
+     * @Description: 将user转为doc
+     * @param user
+     * @return: org.bson.Document
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     private Document trans(User user){
         Document document = new Document();
         document.append(uid, user.getUid());
@@ -226,6 +247,13 @@ public class UserDaoImpl implements UserDao {
         return document;
     }
 
+    /**
+     * @Description: 将buyDoc转为doc
+     * @param bd
+     * @return: org.bson.Document
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     private Document assignment(BuyDoc bd){
         Document document1 = new Document();
         document1.append(uid, bd.getUid());
@@ -235,6 +263,13 @@ public class UserDaoImpl implements UserDao {
         return document1;
     }
 
+    /**
+     * @Description: 将doc 转为buyDoc
+     * @param document
+     * @return: com.liujx.onlineshop.entity.BuyDoc
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     private BuyDoc reAssignment(Document document){
         BuyDoc buyDoc = new BuyDoc();
         if (document.containsKey(uid)){

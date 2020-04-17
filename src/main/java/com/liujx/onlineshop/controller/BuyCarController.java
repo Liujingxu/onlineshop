@@ -38,6 +38,15 @@ public class BuyCarController {
     private GoodsQuery goodsQuery;
 
 
+    /**
+     * @Description: 购买功能
+     * @param session
+     * @param gid
+     * @param number
+     * @return: org.springframework.web.servlet.ModelAndView
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @RequestMapping("buy")
     public ModelAndView buy(HttpSession session, @RequestParam("gid") String gid, @RequestParam("number") Integer number){
         ModelAndView mv = new ModelAndView("cars");
@@ -56,6 +65,13 @@ public class BuyCarController {
         return mv;
     }
 
+    /**
+     * @Description: 查看购物车
+     * @param session
+     * @return: org.springframework.web.servlet.ModelAndView
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @RequestMapping("check")
     public ModelAndView check(HttpSession session){
         ModelAndView mv = new ModelAndView("cars");
@@ -69,6 +85,14 @@ public class BuyCarController {
         return mv;
     }
 
+    /**
+     * @Description: 删除购物车的一条记录
+     * @param session
+     * @param gid
+     * @return: org.springframework.web.servlet.ModelAndView
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @RequestMapping("delete/{gid}")
     public ModelAndView delete(HttpSession session, @PathVariable("gid")String gid){
         ModelAndView mv = new ModelAndView("cars");
@@ -81,6 +105,13 @@ public class BuyCarController {
         return mv;
     }
 
+    /**
+     * @Description: 结算功能
+     * @param session
+     * @return: org.springframework.web.servlet.ModelAndView
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @RequestMapping("sub")
     public ModelAndView submit(HttpSession session){
         try {

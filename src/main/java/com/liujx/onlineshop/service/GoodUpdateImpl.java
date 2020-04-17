@@ -28,6 +28,14 @@ public class GoodUpdateImpl implements GoodUpdate {
         return good1.getClick();
     }
 
+    /**
+     * @Description: 更新用户库存操作
+     * @param gid 商品号
+     * @param number 传入参数正为添加，负为减少
+     * @return: com.liujx.onlineshop.entity.Good
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @Override
     public Good updateGoods(String gid, Integer number) {
         Good good = goodDao.findById(gid);

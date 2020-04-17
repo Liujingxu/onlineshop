@@ -22,7 +22,16 @@ public class Logger implements DaoForOne {
         return mongoDatabase.getCollection("logs");
     }
 
+    /**
+     * @Description: 写日志
+     * @param msg
+     * @param uid
+     * @return: void
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     public void info(String msg, String uid){
+
         Document document = new Document();
         document.append(Log.TIMESTAMP, System.currentTimeMillis());
         document.append(Log.UID, uid);

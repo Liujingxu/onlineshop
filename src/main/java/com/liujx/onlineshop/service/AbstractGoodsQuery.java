@@ -54,5 +54,13 @@ public abstract class AbstractGoodsQuery implements GoodsQuery {
         return goodDao.findById(gid);
     }
 
+    /**
+     * S
+     * @Description: 商品排序方式
+     * @param goods
+     * @return: java.util.List<com.liujx.onlineshop.entity.Good>
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     protected abstract List<Good> sort(List<Good> goods);
 }

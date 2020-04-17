@@ -55,6 +55,24 @@ public abstract class AbstractBackLogic implements BackLogic{
     }
 
 
+    /**
+     * S
+     * @Description: 计算单个商品价格的方式
+     * @param buyDoc
+     * @return: java.lang.Float
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     protected abstract Float cal(BuyDoc buyDoc);
+
+
+    /**
+     * S
+     * @Description: 过滤器，过滤商品
+     * @param alls
+     * @return: java.util.List<com.liujx.onlineshop.entity.BuyDoc>
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     protected abstract List<BuyDoc> filter(List<BuyDoc> alls);
 }

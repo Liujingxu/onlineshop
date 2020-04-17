@@ -25,6 +25,14 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    /**
+     * @Description: 评论页
+     * @param session
+     * @param gid
+     * @return: org.springframework.web.servlet.ModelAndView
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @RequestMapping("vcom")
     public ModelAndView vcomment(HttpSession session, @RequestParam("gid") String gid){
         ModelAndView mv = new ModelAndView();
@@ -37,6 +45,16 @@ public class CommentController {
         return mv;
     }
 
+    /**
+     * @Description: 提交评论
+     * @param session
+     * @param level
+     * @param context
+     * @param gid
+     * @return: java.lang.String
+     * @Author: Liujx
+     * @Date: 2020/4/18
+     */
     @RequestMapping("com")
     public String comments(HttpSession session, @RequestParam("level") Integer level, @RequestParam("context") String context, @RequestParam("gid") String gid){
         ModelAndView mv = new ModelAndView();

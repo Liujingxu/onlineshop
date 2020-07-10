@@ -19,7 +19,11 @@ public abstract class AbstractLoginService implements LoginService {
     @Autowired
     protected Logger logger;
 
-    private User user = new User(String.valueOf(System.currentTimeMillis()), null, "]游客", null, null, null, null, null);
+    private User user;
+
+    public AbstractLoginService() {
+        this.user = new User(String.valueOf(System.currentTimeMillis()), null, "]游客", null, null, null, null, null);;
+    }
 
     @Override
     public User login(User user) {
